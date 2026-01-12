@@ -3,330 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Communication Bank - 200 Questions Full</title>
+    <title>Communication Bank - 200 Full</title>
     <style>
-        :root {
-            --primary: #004a7c;
-            --secondary: #3498db;
-            --success: #27ae60;
-            --danger: #e74c3c;
-            --bg: #f4f7f6;
-            --white: #ffffff;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            margin: 0;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .header-stats {
-            position: -webkit-sticky;
-            position: sticky; 
-            top: 0;
-            z-index: 1000;
-            background: var(--bg);
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            padding: 10px 0;
-            border-bottom: 2px solid #ddd;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            width: 100%;
-            max-width: 700px;
-        }
-
-        .stat-card {
-            background: var(--white);
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .stat-value {
-            display: block;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--primary);
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            color: #666;
-        }
-
-        .questions-container {
-            width: 100%;
-            max-width: 700px;
-            margin-top: 20px;
-        }
-
-        .quiz-card {
-            background: var(--white);
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            position: relative;
-            margin-bottom: 25px;
-            border: 1px solid #eee;
-        }
-
-        .q-number-badge {
-            position: absolute;
-            top: 15px;
-            left: 10px;
-            background: var(--secondary);
-            color: white;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        .question-text {
-            font-size: 1.15rem;
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 20px;
-            margin-left: 55px;
-            line-height: 1.6;
-            text-align: left;
-            direction: ltr;
-        }
-
-        .options-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-left: 55px;
-        }
-
-        .option-btn {
-            background: var(--white);
-            border: 1px solid #ddd;
-            padding: 12px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            text-align: left;
-            direction: ltr;
-            transition: 0.2s;
-        }
-
-        .option-btn:hover:not(:disabled) {
-            background-color: #f0f7ff;
-            border-color: var(--secondary);
-        }
-
+        :root { --primary: #004a7c; --secondary: #3498db; --success: #27ae60; --danger: #e74c3c; --bg: #f4f7f6; --white: #ffffff; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
+        .header-stats { position: sticky; top: 0; z-index: 1000; background: var(--bg); width: 100%; display: flex; justify-content: center; padding: 10px 0; border-bottom: 2px solid #ddd; }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; width: 100%; max-width: 700px; }
+        .stat-card { background: var(--white); padding: 10px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .stat-value { display: block; font-size: 1.2rem; font-weight: bold; color: var(--primary); }
+        .stat-label { font-size: 0.75rem; color: #666; }
+        .questions-container { width: 100%; max-width: 700px; margin-top: 20px; }
+        .quiz-card { background: var(--white); padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); position: relative; margin-bottom: 25px; border: 1px solid #eee; }
+        .q-number-badge { position: absolute; top: 15px; left: 10px; background: var(--secondary); color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .question-text { font-size: 1.1rem; color: var(--primary); font-weight: 600; margin-bottom: 20px; margin-left: 55px; line-height: 1.6; text-align: left; direction: ltr; }
+        .options-list { display: flex; flex-direction: column; gap: 10px; margin-left: 55px; }
+        .option-btn { background: var(--white); border: 1px solid #ddd; padding: 12px 15px; border-radius: 8px; cursor: pointer; font-size: 0.95rem; text-align: left; direction: ltr; transition: 0.2s; }
+        .option-btn:hover:not(:disabled) { background-color: #f0f7ff; border-color: var(--secondary); }
         .correct { background-color: #d4edda !important; border-color: var(--success) !important; color: #155724 !important; font-weight: bold; }
         .wrong { background-color: #f8d7da !important; border-color: var(--danger) !important; color: #721c24 !important; }
     </style>
 </head>
 <body>
-
     <div class="header-stats">
         <div class="stats-grid">
-            <div class="stat-card">
-                <span class="stat-value">200</span>
-                <span class="stat-label">الإجمالي</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-value" id="stat-answered">0</span>
-                <span class="stat-label">أجبت</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-value" id="stat-correct" style="color: var(--success);">0</span>
-                <span class="stat-label">صحيحة</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-value" id="stat-percent">0%</span>
-                <span class="stat-label">النجاح</span>
-            </div>
+            <div class="stat-card"><span class="stat-value">200</span><span class="stat-label">الإجمالي</span></div>
+            <div class="stat-card"><span class="stat-value" id="stat-answered">0</span><span class="stat-label">أجبت</span></div>
+            <div class="stat-card"><span class="stat-value" id="stat-correct" style="color: var(--success);">0</span><span class="stat-label">صحيحة</span></div>
+            <div class="stat-card"><span class="stat-value" id="stat-percent">0%</span><span class="stat-label">النجاح</span></div>
         </div>
     </div>
-
     <div class="questions-container" id="main-container"></div>
 
 <script>
-    const questions = [
-        // 1-50
-        { q: "As regards communication, barriers of messages include which of the following?", o: ["Easy messages", "Relevant messages", "Unclear messages", "Complete messages"], c: 2 },
-        { q: "Which of the following is the definition of motivation?", o: ["Internal force to satisfy needs", "External force", "Both 1 and 4", "Vision only"], c: 0 },
-        { q: "As regards the role of the teacher, which of the following is not correct?", o: ["Planner", "Clarifier", "Stimulator", "Volunteer"], c: 3 },
-        { q: "Group approach method of education includes which of the following?", o: ["Television", "Home visit", "Lecture", "Internet"], c: 2 },
-        { q: "As regards importance of motivation, which of the following is not correct?", o: ["Activate behavior", "Give direction", "Increase productivity", "Passive participation"], c: 3 },
-        { q: "Which is correct for essentials of communication?", o: ["Do not react instantly in anger", "Go to conclusion", "Interrupt", "Medical terminology"], c: 0 },
-        { q: "Considered correct for verbal communication?", o: ["Need words", "Active listening", "Direct questioning", "All the above"], c: 3 },
-        { q: "Characteristic of nonverbal communication?", o: ["Easy", "More reliable than verbal", "No observation", "Used with deaf"], c: 1 },
-        { q: "Effective verbal communicator?", o: ["Encourages empathically", "Eye contact", "Facial expression", "Body language"], c: 0 },
-        { q: "Levels of communication?", o: ["Downwards", "Upwards", "Horizontal", "All the above"], c: 3 },
-        { q: "Correct for nonverbal communication?", o: ["Body language", "Facial expression", "No words", "All the above"], c: 3 },
-        { q: "Risk factors for health education problems:", o: ["Good training", "Interaction", "Interest", "Lack of training"], c: 3 },
-        { q: "Group approach of health education:", o: ["Internet", "Lectures", "Home visit", "TV"], c: 1 },
-        { q: "Advantages of group teaching:", o: ["Small only", "Economic and positive attitude", "High cost", "Lack sharing"], c: 1 },
-        { q: "Importance of motivation, not correct?", o: ["Intrinsic", "Direction", "Productivity", "Extrinsic force"], c: 3 },
-        { q: "Two-way process between sender and receiver:", o: ["Motivation", "Communication", "Ethics", "Learning"], c: 1 },
-        { q: "Correct for nonverbal communication?", o: ["Words", "Observation", "Questioning", "Voice"], c: 1 },
-        { q: "Characteristic of nonverbal communication?", o: ["Easy", "Non reliable", "No observation", "Body language"], c: 3 },
-        { q: "Effective verbal communicator?", o: ["Direct clear questioning", "Eye contact", "Facial expression", "Body language"], c: 0 },
-        { q: "Type of communication?", o: ["Downwards", "Upwards", "Horizontal", "All the above"], c: 3 },
-        { q: "Not good channel character?", o: ["Appropriate", "Affordable", "Appealing", "Non appropriate"], c: 3 },
-        { q: "Effective verbal communicator?", o: ["Listens, acknowledges", "Relaxes", "Opens up", "Eye contact"], c: 0 },
-        { q: "Types of communication?", o: ["Verbal", "Nonverbal", "Intermediate", "Verbal and nonverbal"], c: 3 },
-        { q: "Correct for verbal communication?", o: ["Body language", "Words", "Facial", "No words"], c: 1 },
-        { q: "Not the level of communication?", o: ["Downward", "Upwards", "Lateral", "Vertical"], c: 2 },
-        { q: "Good sender characters?", o: ["Channel", "Interested", "Both 1 and 2", "Lack interest"], c: 2 },
-        { q: "Person message is directed to:", o: ["Sender", "Receiver", "Channel", "Message"], c: 1 },
-        { q: "Final stage where receiver replies:", o: ["Sending", "Communication", "Feedback", "Receiving"], c: 2 },
-        { q: "Nonverbal advantages?", o: ["Words", "No interpretation", "Reliable", "High voice"], c: 2 },
-        { q: "Requirements effective comm EXCEPT:", o: ["Clear", "Relevant", "Meaningful", "Non relevant"], c: 3 },
-        { q: "Criteria effective nonverbal comm:", o: ["Clear voice", "Eye contact", "Words", "Meaningful speech"], c: 1 },
-        { q: "Barrier of communication:", o: ["Proper channel", "Improper channel", "Good channel", "Relevant"], c: 1 },
-        { q: "Teaching defined as:", o: ["Behavior changes", "Learners", "Groups", "Clients"], c: 0 },
-        { q: "Rules of motivation correct?", o: ["Not finish", "Not socialize", "Take risk/major goal", "No learning"], c: 2 },
-        { q: "NOT a barrier of comm?", o: ["Lack interest", "Good language", "Anxiety", "Impaired visual"], c: 1 },
-        { q: "Barriers of messages include:", o: ["Difficult/Irrelevant", "Easy", "Clear", "Complete"], c: 0 },
-        { q: "Uncomfortable settings:", o: ["Irrelevant", "Not essentials", "Barriers", "Concentrate"], c: 2 },
-        { q: "Upwards communication true?", o: ["Below down", "Nondirective", "Info", "All the above"], c: 3 },
-        { q: "Verbal communication?", o: ["Open", "Close", "Both Open/Close", "Not relevant"], c: 2 },
-        { q: "Nonverbal communication?", o: ["Direct questions", "Words", "Less conscious control", "Good control"], c: 2 },
-        { q: "Nonverbal characteristic?", o: ["Observation", "Reliable", "Interpretation", "All the above"], c: 3 },
-        { q: "Individual teaching disadvantage?", o: ["High cost", "Economic", "Positive attitude", "Low cost"], c: 0 },
-        { q: "Good communicator channel?", o: ["Appropriate", "Affordable", "Appealing", "All the above"], c: 3 },
-        { q: "Feedback should not be:", o: ["Absent", "Relevant", "Good", "Complete"], c: 0 },
-        { q: "Sender responsibility:", o: ["Discourage", "Encourage", "No relation", "Work alone"], c: 1 },
-        { q: "Health education definition?", o: ["Voluntary action", "Unvoluntary", "Force", "Unhealthy"], c: 0 },
-        { q: "Teacher role not correct?", o: ["Planner", "Clarifier", "Stimulator", "Volunteer"], c: 3 },
-        { q: "Nonverbal represents:", o: ["90%", "80%", "70%", "10%"], c: 0 },
-        { q: "Verbal communication?", o: ["Words for emotions", "Active listening", "Questions", "All above"], c: 3 },
-        { q: "Nonverbal characteristic?", o: ["Easy", "Not reliable", "No observation", "Deaf/mute"], c: 1 },
+const questions = [
+    { q: "As regards communication, barriers of messages include which of the following?", o: ["Easy messages", "Relevant messages", "Unclear messages", "Complete messages"], c: 2 },
+    { q: "Which of the following is the definition of motivation?", o: ["Internal force initiates behavior", "External force", "Both 1 and 4", "Motivation starts with vision"], c: 0 },
+    { q: "As regards the role of the teacher, which is not correct?", o: ["Planner", "Clarifier", "Stimulator", "Volunteer"], c: 3 },
+    { q: "Group approach method of education includes:", o: ["Television", "Home visit", "Lecture", "Internet"], c: 2 },
+    { q: "Importance of motivation, which is not correct?", o: ["Activate behavior", "Give direction", "Increase productivity", "Passive participation"], c: 3 },
+    { q: "Essentials of communication:", o: ["Do not react in anger", "Go to conclusion", "Interrupt speaker", "Use medical terms"], c: 0 },
+    { q: "Correct for verbal communication?", o: ["Need words for emotions", "Active listening", "Direct questioning", "All the above"], c: 3 },
+    { q: "Nonverbal communication characteristic:", o: ["Easy", "More reliable than verbal", "No observation", "Can't use with deaf"], c: 1 },
+    { q: "Effective verbal communicator?", o: ["Encourages empathically", "Eye contact", "Facial expression", "Body language"], c: 0 },
+    { q: "Levels of communication:", o: ["Downwards", "Upwards", "Horizontal", "All the above"], c: 3 },
+    { q: "Correct for nonverbal communication?", o: ["Body language", "Facial, touch, eye contact", "Cannot use words", "All the above"], c: 3 },
+    { q: "Risk factors for health education problems:", o: ["Training", "Proper interaction", "Interest", "Lack staff training"], c: 3 },
+    { q: "Group approach health education:", o: ["Internet", "Lectures, workshops", "Home visit", "Television"], c: 1 },
+    { q: "Advantages of group teaching:", o: ["Small group only", "Economic and positive", "High cost", "Lack of sharing"], c: 1 },
+    { q: "Importance of motivation, not correct?", o: ["Intrinsic force", "Give direction", "Increase productivity", "Extrinsic force"], c: 3 },
+    { q: "Two-way process between sender and receiver:", o: ["Motivation", "Communication", "Ethics", "Learning"], c: 1 },
+    { q: "Nonverbal communication correct?", o: ["Words for emotions", "Need observation", "Direct questioning", "Need voice"], c: 1 },
+    { q: "Nonverbal communication characteristic:", o: ["Easy", "Non reliable", "No observation", "Use body language"], c: 3 },
+    { q: "Effective verbal communicator?", o: ["Direct clear questioning", "Eye contact", "Facial expression", "Body language"], c: 0 },
+    { q: "Type of communication?", o: ["Downwards", "Upwards", "Horizontal", "All the above"], c: 3 },
+    { q: "Good communicator channel characteristic, NOT?", o: ["Appropriate", "Affordable", "Appealing", "Non appropriate"], c: 3 },
+    { q: "Effective verbal communicator:", o: ["Clarifies, listens, acknowledges", "Relaxes", "Opens up", "Eye contact"], c: 0 },
+    { q: "Types of communication?", o: ["Verbal only", "Nonverbal only", "Intermediate", "Verbal and nonverbal"], c: 3 },
+    { q: "Verbal communication correct?", o: ["Body language", "Use words", "Facial expression", "Cannot use words"], c: 1 },
+    { q: "NOT level of communication?", o: ["Downward", "Upwards", "Lateral", "Vertical"], c: 2 },
+    { q: "Characters good sender?", o: ["Channel", "Interested", "Both 1 and 2", "Lack interest"], c: 2 },
+    { q: "Person message is directed to:", o: ["Sender", "Receiver", "Channel", "Message"], c: 1 },
+    { q: "Final stage receiver replies to sender:", o: ["Sending", "Communication", "Feedback", "Receiving"], c: 2 },
+    { q: "Nonverbal advantages correct?", o: ["Need words", "No interpretation", "More reliable", "High voice"], c: 2 },
+    { q: "Effective communication EXCEPT:", o: ["Clear", "Relevant", "Meaningful", "Non relevant"], c: 3 },
+    { q: "Effective nonverbal communicator:", o: ["Clear voice", "Eye contact & facial", "Use words", "Meaningful speech"], c: 1 },
+    { q: "Barrier of communication:", o: ["Proper channel", "Improper channel", "Good channel", "Relevant"], c: 1 },
+    { q: "Teaching defined as:", o: ["Interaction for behavior change", "Between learners", "Between groups", "Between clients"], c: 0 },
+    { q: "Rules of motivation correct?", o: ["Not finish", "Not socialize", "Take risk/major goal", "No learning"], c: 2 },
+    { q: "NOT barrier of communication?", o: ["Lack interest", "Good language", "Anxiety", "Impaired visual"], c: 1 },
+    { q: "Barriers of messages include:", o: ["Difficult/Irrelevant", "Easy", "Clear", "Complete"], c: 0 },
+    { q: "Uncomfortable settings:", o: ["Irrelevant", "Not essentials", "Barriers", "Concentrate"], c: 2 },
+    { q: "Upwards communication true?", o: ["Below down", "Nondirective", "Info", "All above"], c: 3 },
+    { q: "Verbal communication correct?", o: ["Open-ended", "Close-ended", "Both", "Not relevant"], c: 2 },
+    { q: "Nonverbal communication correct?", o: ["Direct questioning", "Need words", "Less conscious control", "Good control"], c: 2 },
+    { q: "Nonverbal characteristic:", o: ["Observation", "More reliable", "Interpretation", "All above"], c: 3 },
+    { q: "Individual teaching disadvantage:", o: ["High cost", "Economic", "Positive", "Low cost"], c: 0 },
+    { q: "Good communicator channel:", o: ["Appropriate", "Affordable", "Appealing", "All above"], c: 3 },
+    { q: "Feedback should not be:", o: ["Absent", "Relevant", "Good", "Complete"], c: 0 },
+    { q: "Sender responsibility:", o: ["Discourage", "Encourage", "No relation", "Work alone"], c: 1 },
+    { q: "Health education definition:", o: ["Voluntary action", "Unvoluntary", "Force", "Unhealthy"], c: 0 },
+    { q: "Teacher role not correct?", o: ["Planner", "Clarifier", "Stimulator", "Volunteer"], c: 3 },
+    { q: "Nonverbal represents:", o: ["90%", "80%", "70%", "10%"], c: 0 },
+    { q: "Verbal communication correct?", o: ["Words for emotions", "Active listening", "Direct questioning", "All above"], c: 3 },
+    { q: "Nonverbal characteristic:", o: ["Easy", "Not reliable", "No observation", "Used with deaf"], c: 1 },
+    { q: "Effective verbal communicator:", o: ["Encourages empathically", "Eye contact", "Facial expression", "Body language"], c: 0 },
+    { q: "Level of communication:", o: ["Downwards", "Upwards", "Horizontal", "All above"], c: 3 },
+    { q: "Good communicator channel:", o: ["Appropriate", "Affordable", "Appealing", "All above"], c: 3 },
+    { q: "Nonverbal communication:", o: ["Body language", "Facial expression", "Eye contact", "All above"], c: 3 },
+    { q: "Methods nonverbal communication:", o: ["High sounds", "Clear words", "Understanding", "Body language"], c: 3 },
+    { q: "True for verbal communication:", o: ["Words", "Eye contact", "Facial", "Touch"], c: 0 },
+    { q: "Nonverbal method NOT correct?", o: ["More reliable", "Not reliable", "Touch", "Eye contact"], c: 1 },
+    { q: "Effective verbal communication:", o: ["Listens, acknowledges", "Relax", "Open up", "Eye contact"], c: 0 },
+    { q: "Type of communication?", o: ["Verbal", "Nonverbal", "Intermediate", "Both verbal/nonverbal"], c: 3 },
+    { q: "NOT level of communication?", o: ["Downward", "Upwards", "Lateral", "Vertical"], c: 2 },
+    { q: "Two-way process between sender and receiver:", o: ["Motivation", "Communication", "Ethics", "Learning"], c: 1 },
+    { q: "Not good channel character?", o: ["Appropriate", "Affordable", "Appealing", "Non appropriate"], c: 3 },
+    { q: "Way message is sent:", o: ["Channel", "Feedback", "Message", "Conversation"], c: 0 },
+    { q: "Good sender characters:", o: ["Know subject", "Interested", "Know audience", "All above"], c: 3 },
+    { q: "Verbal communication correct?", o: ["Touch", "Words", "Facial", "Eye contact"], c: 1 },
+    { q: "True for downward communication:", o: ["Seniors to juniors", "Directive", "Orders", "All above"], c: 3 },
+    { q: "Effective communication needs message:", o: ["Timely", "Meaningful", "Both", "Not suitable"], c: 2 },
+    { q: "Upwards communication is:", o: ["Junior to senior", "Senior to junior", "Between students", "Directive"], c: 0 },
+    { q: "Final stage of understanding:", o: ["Sending", "Communication", "Feedback", "Receiving"], c: 2 },
+    { q: "Nonverbal advantages:", o: ["Words", "No interpretation", "Deaf/mute persons", "High voice"], c: 1 },
+    { q: "Good receiver character:", o: ["Aware", "Willing to accept", "Understand value", "All above"], c: 3 },
+    { q: "Effective nonverbal communicator:", o: ["Clear voice", "Eye/Facial", "Relaxes", "2 + 3"], c: 3 },
+    { q: "Health education code of ethics:", o: ["Shared values framework", "Interactions", "Doctors", "Students"], c: 0 },
+    { q: "Good nonverbal communication:", o: ["Observation", "Analysis", "Interpretation", "All above"], c: 3 },
+    { q: "Upward communication correct:", o: ["Nondirective", "Junior to senior", "Inform problem", "All above"], c: 3 },
+    { q: "Downward communication correct:", o: ["Senior to junior", "Nondirective", "Junior to senior", "Inform problem"], c: 0 },
+    { q: "Lateral communication correct:", o: ["Colleagues", "Same level", "Save time", "All above"], c: 3 },
+    { q: "Good receiver correct:", o: ["Aware", "Not listen", "Neglect", "No interest"], c: 0 },
+    { q: "Barriers for communication:", o: ["No interest", "Anxiety", "Impaired channels", "All above"], c: 3 },
+    { q: "Essentials for good communication:", o: ["Atmosphere", "Setting", "Light", "All above"], c: 3 },
+    { q: "Effective communication message:", o: ["Hazy", "Unclear", "Irrelevant", "Clear and accurate"], c: 3 },
+    { q: "Correct for body language:", o: ["Touch", "No eye contact", "Not important", "Irrelevant"], c: 0 },
+    { q: "True for student:", o: ["Sender", "Receiver", "Teacher", "No feedback"], c: 1 },
+    { q: "Basic component of human relationship:", o: ["Education", "Communication", "Teaching", "Learning"], c: 1 },
+    { q: "Correct for teacher:", o: ["Good sender", "Receiver", "Learner", "Patient"], c: 0 },
+    { q: "Responsibility health education:", o: ["Meet challenges", "No role", "Minimal role", "No team"], c: 0 },
+    { q: "Methods health education:", o: ["Direct", "Indirect", "Both", "Mass media"], c: 2 },
+    { q: "Levels health education:", o: ["Individual", "Group", "General", "All above"], c: 3 },
+    { q: "Advantages individual approach:", o: ["Flexibility", "Opportunity", "Motivation", "All above"], c: 3 },
+    { q: "Lateral communication correct:", o: ["Colleagues", "Seniors", "Juniors", "Senior to junior"], c: 0 },
+    { q: "Good sender correct:", o: ["Level of audience", "Not listen", "Neglect", "No interest"], c: 0 },
+    { q: "Disadvantages individual education:", o: ["High cost", "Lack sharing", "1 + 2", "Low cost"], c: 2 },
+    { q: "Essentials good communication:", o: ["Atmosphere", "Setting", "Light", "All above"], c: 3 },
+    { q: "Small group teaching:", o: ["2-5", "6-30", "40", "60"], c: 0 },
+    { q: "Medium sized group:", o: ["2-5", "6-30", "40", "60"], c: 1 },
+    { q: "True for large group:", o: ["Economic", "Positive", "Mass media", "All above"], c: 3 },
+    { q: "Prenatal care considered:", o: ["Small", "Medium", "Large", "Learning"], c: 2 },
+    { q: "Individual approach correct:", o: ["Home visit", "Personal contact", "Letters", "All above"], c: 3 },
+    { q: "Group approach health education:", o: ["Lectures", "Conferences", "Workshops", "All above"], c: 3 },
+    { q: "Mass approach health education:", o: ["Mass media", "TV", "Radio", "All above"], c: 3 },
+    { q: "As regards communication, it is:", o: ["One way", "Two way", "Passive", "Nonverbal"], c: 1 },
+    { q: "Effective way of teaching:", o: ["Lecture", "Discussion", "Demonstration", "Reading"], c: 2 },
+    { q: "Main aim health education:", o: ["Force", "Info", "Behavior change", "Medicine"], c: 2 },
+    { q: "NOT component of communication:", o: ["Sender", "Message", "Receiver", "Noise elimination"], c: 3 },
+    { q: "Feedback important because:", o: ["Sender happy", "Ensure understanding", "Ends process", "Noise"], c: 1 },
+    { q: "Noise refers to:", o: ["Loud sounds", "Interference", "Music", "Speaking loud"], c: 1 },
+    { q: "Empathy means:", o: ["Feeling sorry", "Understanding feelings", "Ignoring", "Talking more"], c: 1 },
+    { q: "Barrier to listening:", o: ["Eye contact", "Notes", "Prejudice", "Asking"], c: 2 },
+    { q: "Verbal communication:", o: ["Body language", "Facial", "Words", "Gestures"], c: 2 },
+    { q: "Good message should be:", o: ["Long", "Short/Clear", "Ambiguous", "Passive"], c: 1 },
+    { q: "Horizontal communication:", o: ["Senior/Junior", "Junior/Senior", "Same level", "Different orgs"], c: 2 },
+    { q: "Common nonverbal form:", o: ["Touch", "Facial", "Proximity", "Eye contact"], c: 1 },
+    { q: "Kinesics is study of:", o: ["Touch", "Voice", "Body movement", "Space"], c: 2 },
+    { q: "Proxemics refers to:", o: ["Time", "Space", "Touch", "Words"], c: 1 },
+    { q: "Paralanguage includes:", o: ["Words", "Voice pitch/volume", "Posture", "Eye movement"], c: 1 },
+    { q: "Closed-ended question:", o: ["Feel?", "Name?", "Explain?", "In pain?"], c: 3 },
+    { q: "Open-ended questions:", o: ["Yes/No", "Encourage detail", "Limit", "Stop talk"], c: 1 },
+    { q: "Decoding done by:", o: ["Sender", "Receiver", "Channel", "Message"], c: 1 },
+    { q: "Encoding is process of:", o: ["Thoughts into message", "Interpreting", "Feedback", "Channel"], c: 0 },
+    { q: "NOT physical barrier:", o: ["Wall", "Distance", "Language", "Poor light"], c: 2 },
+    { q: "Semantic barriers:", o: ["Distance", "Words/Meanings", "Body", "Anxiety"], c: 1 },
+    { q: "Psychological barrier:", o: ["Noise", "Language", "Fear/Lack of trust", "Distance"], c: 2 },
+    { q: "Effective communication needs:", o: ["Sender", "Receiver", "Active both", "No feedback"], c: 2 },
+    { q: "Listening and Hearing:", o: ["Same", "Different", "Active/Passive", "None"], c: 1 },
+    { q: "First step in communication:", o: ["Encoding", "Developing idea", "Channel", "Transmission"], c: 1 },
+    { q: "Mass communication example:", o: ["Private", "Group", "TV broadcast", "Home visit"], c: 2 },
+    { q: "Good listener character:", o: ["Interrupting", "Looking away", "Feedback", "Judging"], c: 2 },
+    { q: "Health education for diabetic:", o: ["Individual", "Mass", "Group", "Unnecessary"], c: 0 },
+    { q: "Poster and leaflets are:", o: ["Verbal", "Visual", "Audio", "Nonverbal"], c: 1 },
+    { q: "Lecture to 100 students:", o: ["Small", "Large", "Individual", "Mass"], c: 1 },
+    { q: "Most personal form:", o: ["Email", "Telephone", "Face-to-face", "Letter"], c: 2 },
+    { q: "Self-motivation is:", o: ["Intrinsic", "Extrinsic", "Forceful", "Non-existent"], c: 0 },
+    { q: "Reward/Punishment are:", o: ["Intrinsic", "Extrinsic", "No motivation", "Communication"], c: 1 },
+    { q: "Increases motivation:", o: ["Clear goals", "Negative", "Boredom", "Anxiety"], c: 0 },
+    { q: "Communication in organization:", o: ["Internal", "External", "Formal", "Informal"], c: 0 },
+    { q: "Grapevine is:", o: ["Formal", "Informal", "Written", "Downward"], c: 1 },
+    { q: "Clarity means:", o: ["Complex", "Simple/Direct", "Vague", "Fast"], c: 1 },
+    { q: "Conciseness means:", o: ["Long", "Brief", "Too many examples", "Repeating"], c: 1 },
+    { q: "Soft skill:", o: ["Typing", "Surgery", "Communication", "Programming"], c: 2 },
+    { q: "SMART - S:", o: ["Simple", "Specific", "Slow", "Strong"], c: 1 },
+    { q: "SMART - A:", o: ["Active", "Attainable", "Always", "Aggressive"], c: 1 },
+    { q: "Channel of communication:", o: ["Visual", "Auditory", "Tactile", "All above"], c: 3 },
+    { q: "Benefit group work:", o: ["Conflict", "Diversity", "Slow", "Less productive"], c: 1 },
+    { q: "Leadership requires:", o: ["Communication", "Listening", "Decision", "All above"], c: 3 },
+    { q: "Persuasion process:", o: ["Forcing", "Changing beliefs", "Giving up", "Ignoring"], c: 1 },
+    { q: "Conflict resolution:", o: ["Fighting", "Negotiation", "Winning", "Ignoring"], c: 1 },
+    { q: "Code of Ethics:", o: ["Laws", "Professional behavior", "Penalties", "Skills"], c: 1 },
+    { q: "NOT good habit:", o: ["Late", "Active listening", "Clear", "Respect"], c: 0 },
+    { q: "Receiver also known as:", o: ["Source", "Decoder", "Encoder", "Medium"], c: 1 },
+    { q: "Effective health education leads to:", o: ["Better outcomes", "Costs", "Confusion", "Less cooperation"], c: 0 },
+    { q: "Barrier of communication related to the sender is lack of interest.", o: ["True", "False"], c: 0 },
+    { q: "Making inappropriate use of medical terminology is a barrier.", o: ["True", "False"], c: 0 },
+    { q: "Nonverbal communication uses words.", o: ["True", "False"], c: 1 },
+    { q: "Proper questioning is a barrier of communication.", o: ["True", "False"], c: 1 },
+    { q: "Motivation is external force.", o: ["True", "False"], c: 1 },
+    { q: "Anxiety is barrier of communication.", o: ["True", "False"], c: 0 },
+    { q: "Improper channel is a barrier.", o: ["True", "False"], c: 0 },
+    { q: "Do not react instantly in anger is essential.", o: ["True", "False"], c: 0 },
+    { q: "Nonverbal communication is more reliable than verbal.", o: ["True", "False"], c: 0 },
+    { q: "Downward communication is from senior to junior.", o: ["True", "False"], c: 0 },
+    { q: "Person has good conscious control over nonverbal behavior.", o: ["True", "False"], c: 1 },
+    { q: "Nonverbal communication gives direct question.", o: ["True", "False"], c: 1 },
+    { q: "Motivation is internal force start with dream.", o: ["True", "False"], c: 0 },
+    { q: "Body language is considered nonverbal communication.", o: ["True", "False"], c: 0 },
+    { q: "Touch is considered verbal communication.", o: ["True", "False"], c: 1 },
+    { q: "Touch is nonverbal communication.", o: ["True", "False"], c: 0 },
+    { q: "Verbal communication uses words and voice.", o: ["True", "False"], c: 0 },
+    { q: "Barriers of communication is uncomfortable sitting.", o: ["True", "False"], c: 0 },
+    { q: "Good light consider essential for communication.", o: ["True", "False"], c: 0 },
+    { q: "Teacher is sender.", o: ["True", "False"], c: 0 },
+    { q: "Student is receiver.", o: ["True", "False"], c: 0 },
+    { q: "Message should be clear and meaningful.", o: ["True", "False"], c: 0 },
+    { q: "Unrelevant message is barrier of communication.", o: ["True", "False"], c: 0 },
+    { q: "Communication is basic component of human relationship.", o: ["True", "False"], c: 0 },
+    { q: "Nonverbal communication represent 90% of communication.", o: ["True", "False"], c: 0 },
+    { q: "Nonverbal communication represent 10% of communication.", o: ["True", "False"], c: 1 },
+    { q: "Nonverbal communication needs good observation and analysis.", o: ["True", "False"], c: 0 },
+    { q: "Good communicator recognize the clients needs.", o: ["True", "False"], c: 0 },
+    { q: "Important communication brings patient satisfaction.", o: ["True", "False"], c: 0 },
+    { q: "Good communication decreases the medicolegal consequences.", o: ["True", "False"], c: 0 },
+    { q: "Good communicator can get electronic and written records.", o: ["True", "False"], c: 0 },
+    { q: "Receiver is the person to home message is directed.", o: ["True", "False"], c: 0 },
+    { q: "Sender is the person initiating the conversation.", o: ["True", "False"], c: 0 },
+    { q: "Verbal communication needs active listening.", o: ["True", "False"], c: 0 },
+    { q: "Take risk and set a major goal is base of motivation.", o: ["True", "False"], c: 0 },
+    { q: "Health education help people to make decision about health.", o: ["True", "False"], c: 0 },
+    { q: "Major goal of health education is to prevent chronic disease.", o: ["True", "False"], c: 0 },
+    { q: "As regard rules of motivation, learn how to learn.", o: ["True", "False"], c: 0 },
+    { q: "As regards rules of motivation socialize with others.", o: ["True", "False"], c: 0 },
+    { q: "Put major goals and take risk to motivate.", o: ["True", "False"], c: 0 },
+    { q: "Bad light is bad for educational learning.", o: ["True", "False"], c: 0 },
+    { q: "Take risk to achieve major goals is not a motivator.", o: ["True", "False"], c: 1 },
+    { q: "Educational objectives should not be measurable.", o: ["True", "False"], c: 1 },
+    { q: "Sources of motivation are social and behavioral.", o: ["True", "False"], c: 0 },
+    { q: "Health educator cannot design health programs.", o: ["True", "False"], c: 1 },
+    { q: "Health educators improve community health.", o: ["True", "False"], c: 0 },
+    { q: "Do not go to the conclusion is essential.", o: ["True", "False"], c: 0 },
+    { q: "Do not interrupt the speakers is essential.", o: ["True", "False"], c: 0 },
+    { q: "React instantly in anger.", o: ["True", "False"], c: 1 },
+    { q: "Do not react instantly in anger.", o: ["True", "False"], c: 0 }
+];
 
-        // 51-150 (نفس الأسئلة السابقة)
-        // ... (تم دمجها تلقائياً لتقليل حجم الكود هنا ولكنها موجودة في النسخة الكاملة)
-        { q: "Effective way of teaching?", o: ["Lecture", "Discussion", "Demonstration", "Reading"], c: 2 },
-        { q: "Main aim of health education:", o: ["Force", "Info", "Change behavior", "Medicine"], c: 2 },
-        { q: "Listening and Hearing are:", o: ["Same", "Different", "Active/Passive", "None"], c: 1 },
-        { q: "SMART goals - S stands for:", o: ["Simple", "Specific", "Slow", "Strong"], c: 1 },
-        // ... سأكمل الآن بالـ 50 الجديدة التي أرسلتها أنت
-
-        // 151-200 (True/False)
-        { q: "151. Barrier of communication related to the sender is lack of interest.", o: ["True", "False"], c: 0 },
-        { q: "152. Making inappropriate use of medical terminology is considered as a barrier of communication.", o: ["True", "False"], c: 0 },
-        { q: "153. Nonverbal communication uses words.", o: ["True", "False"], c: 1 },
-        { q: "154. Proper questioning is a barrier of communication.", o: ["True", "False"], c: 1 },
-        { q: "155. Motivation is external force.", o: ["True", "False"], c: 1 },
-        { q: "156. Anxiety is barrier of communication.", o: ["True", "False"], c: 0 },
-        { q: "157. Improper channel of communication is a barrier of communication channel.", o: ["True", "False"], c: 0 },
-        { q: "158. Do not react instantly in anger is essential of good communication.", o: ["True", "False"], c: 0 },
-        { q: "159. Nonverbal communication is more reliable than verbal.", o: ["True", "False"], c: 0 },
-        { q: "160. Downward communication is from senior to junior.", o: ["True", "False"], c: 0 },
-        { q: "161. Person has good conscious control over nonverbal communication.", o: ["True", "False"], c: 1 },
-        { q: "162. Nonverbal communication gives direct question.", o: ["True", "False"], c: 1 },
-        { q: "163. Motivation is internal force start with dream.", o: ["True", "False"], c: 0 },
-        { q: "164. Body language is considered nonverbal communication.", o: ["True", "False"], c: 0 },
-        { q: "165. Touch is considered verbal communication.", o: ["True", "False"], c: 1 },
-        { q: "166. Touch is nonverbal communication.", o: ["True", "False"], c: 0 },
-        { q: "167. Verbal communication uses words and voice.", o: ["True", "False"], c: 0 },
-        { q: "168. Barriers of communication is uncomfortable sitting.", o: ["True", "False"], c: 0 },
-        { q: "169. Good light consider essential for communication.", o: ["True", "False"], c: 0 },
-        { q: "170. Teacher is sender.", o: ["True", "False"], c: 0 },
-        { q: "171. Student is receiver.", o: ["True", "False"], c: 0 },
-        { q: "172. Message should be clear and meaningful.", o: ["True", "False"], c: 0 },
-        { q: "173. Unrelevant message is barrier of communication.", o: ["True", "False"], c: 0 },
-        { q: "174. Communication is basic component of human relationship.", o: ["True", "False"], c: 0 },
-        { q: "175. Nonverbal communication represent 90% of communication.", o: ["True", "False"], c: 0 },
-        { q: "176. Nonverbal communication represent 10% of communication.", o: ["True", "False"], c: 1 },
-        { q: "177. Nonverbal communication needs good observation and analysis.", o: ["True", "False"], c: 0 },
-        { q: "178. Good communicator recognize the clients needs.", o: ["True", "False"], c: 0 },
-        { q: "179. Important communication brings patient satisfaction.", o: ["True", "False"], c: 0 },
-        { q: "180. Good communication decreases the medicolegal consequences.", o: ["True", "False"], c: 0 },
-        { q: "181. Good communicator can get adequate electronic and written records.", o: ["True", "False"], c: 0 },
-        { q: "182. Receiver is the person to home message is directed.", o: ["True", "False"], c: 0 },
-        { q: "183. Sender is the person initiating the conversation.", o: ["True", "False"], c: 0 },
-        { q: "184. Verbal communication needs active listening.", o: ["True", "False"], c: 0 },
-        { q: "185. Take risk and set a major goal is base of motivation.", o: ["True", "False"], c: 0 },
-        { q: "186. Health education help people to make decision about their health.", o: ["True", "False"], c: 0 },
-        { q: "187. Major goal of health education is to prevent chronic preventable disease.", o: ["True", "False"], c: 0 },
-        { q: "188. As regard rules of motivation, learn how to learn.", o: ["True", "False"], c: 0 },
-        { q: "189. As regards rules of motivation socialize with other of the same interest.", o: ["True", "False"], c: 0 },
-        { q: "190. Put major goals and take risk to motivate.", o: ["True", "False"], c: 0 },
-        { q: "191. Bad light is bad for educational learning.", o: ["True", "False"], c: 0 },
-        { q: "192. Take risk to achieve major goals is not a motivator.", o: ["True", "False"], c: 1 },
-        { q: "193. Educational objectives should not be measurable.", o: ["True", "False"], c: 1 },
-        { q: "194. Sources of motivation are social and behavioral.", o: ["True", "False"], c: 0 },
-        { q: "195. Health educator cannot design health programs.", o: ["True", "False"], c: 1 },
-        { q: "196. Health educators improve community health.", o: ["True", "False"], c: 0 },
-        { q: "197. Do not go to the conclusion is essential for good communication.", o: ["True", "False"], c: 0 },
-        { q: "198. Do not interrupt the speakers is essential for good communication.", o: ["True", "False"], c: 0 },
-        { q: "199. React instantly in anger is good for communication.", o: ["True", "False"], c: 1 },
-        { q: "200. Do not react instantly in anger is essential for good communication.", o: ["True", "False"], c: 0 }
-    ];
-
-    let score = 0;
-    let answered = 0;
-
-    function buildQuiz() {
-        const container = document.getElementById("main-container");
-        questions.forEach((item, qIdx) => {
-            const card = document.createElement("div");
-            card.className = "quiz-card";
-            card.innerHTML = `
-                <div class="q-number-badge">${qIdx + 1}</div>
-                <div class="question-text">${item.q}</div>
-                <div class="options-list" id="options-${qIdx}"></div>
-            `;
-            container.appendChild(card);
-
-            const optionsBox = document.getElementById(`options-${qIdx}`);
-            item.o.forEach((opt, oIdx) => {
-                const btn = document.createElement("button");
-                btn.className = "option-btn";
-                btn.innerText = opt;
-                btn.onclick = () => handleChoice(qIdx, oIdx, btn);
-                optionsBox.appendChild(btn);
-            });
-        });
-    }
-
-    function handleChoice(qIdx, oIdx, clickedBtn) {
+let score = 0, answered = 0;
+function buildQuiz() {
+    const container = document.getElementById("main-container");
+    questions.forEach((item, qIdx) => {
+        const card = document.createElement("div");
+        card.className = "quiz-card";
+        card.innerHTML = `<div class="q-number-badge">${qIdx + 1}</div><div class="question-text">${item.q}</div><div class="options-list" id="options-${qIdx}"></div>`;
+        container.appendChild(card);
         const optionsBox = document.getElementById(`options-${qIdx}`);
-        const buttons = optionsBox.querySelectorAll(".option-btn");
-        const correctIdx = questions[qIdx].c;
-
-        buttons.forEach(btn => btn.disabled = true);
-
-        if (oIdx === correctIdx) {
-            clickedBtn.classList.add("correct");
-            score++;
-        } else {
-            clickedBtn.classList.add("wrong");
-            buttons[correctIdx].classList.add("correct");
-        }
-        answered++;
-        updateHeader();
-    }
-
-    function updateHeader() {
-        document.getElementById("stat-answered").innerText = answered;
-        document.getElementById("stat-correct").innerText = score;
-        const percent = answered === 0 ? 0 : Math.round((score / answered) * 100);
-        document.getElementById("stat-percent").innerText = percent + "%";
-    }
-
-    buildQuiz();
+        item.o.forEach((opt, oIdx) => {
+            const btn = document.createElement("button");
+            btn.className = "option-btn"; btn.innerText = opt;
+            btn.onclick = () => handleChoice(qIdx, oIdx, btn);
+            optionsBox.appendChild(btn);
+        });
+    });
+}
+function handleChoice(qIdx, oIdx, clickedBtn) {
+    const buttons = document.getElementById(`options-${qIdx}`).querySelectorAll(".option-btn");
+    const correctIdx = questions[qIdx].c;
+    buttons.forEach(btn => btn.disabled = true);
+    if (oIdx === correctIdx) { clickedBtn.classList.add("correct"); score++; }
+    else { clickedBtn.classList.add("wrong"); buttons[correctIdx].classList.add("correct"); }
+    answered++; updateHeader();
+}
+function updateHeader() {
+    document.getElementById("stat-answered").innerText = answered;
+    document.getElementById("stat-correct").innerText = score;
+    document.getElementById("stat-percent").innerText = Math.round((score / answered) * 100) + "%";
+}
+buildQuiz();
 </script>
 </body>
 </html>
