@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Communication Bank - 200 Questions</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        header { text-align: center; border-bottom: 3px solid #007bff; margin-bottom: 20px; padding-bottom: 10px; position: sticky; top: 0; background: white; z-index: 100; }
+        .stats { display: flex; justify-content: space-around; font-weight: bold; font-size: 1.1em; color: #007bff; margin: 10px 0; }
+        .question-card { background: #fff; border: 1px solid #e1e4e8; padding: 20px; margin-bottom: 20px; border-radius: 10px; transition: 0.3s; }
+        .question-card:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .question-text { font-size: 1.1em; font-weight: bold; margin-bottom: 15px; text-align: left; direction: ltr; display: block; }
+        .options { list-style: none; padding: 0; }
+        .option { display: block; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; text-align: left; direction: ltr; transition: 0.2s; }
+        .option:hover { background: #f8f9fa; }
+        .option input { margin-right: 10px; }
+        .correct { background: #d4edda !important; border-color: #c3e6cb !important; color: #155724; font-weight: bold; }
+        .wrong { background: #f8d7da !important; border-color: #f5c6cb !important; color: #721c24; }
+        .btn-finish { display: block; width: 100%; padding: 20px; background: #28a745; color: white; border: none; border-radius: 10px; font-size: 1.2em; font-weight: bold; cursor: pointer; }
+        .btn-finish:hover { background: #218838; }
+        #result-box { display: none; text-align: center; padding: 30px; background: #fff; border: 2px solid #007bff; border-radius: 15px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>بنك أسئلة التواصل (200 سؤال)</h1>
+        <div class="stats">
+            <div>الصح: <span id="correct-score" style="color: green;">0</span></div>
+            <div>الخطأ: <span id="wrong-score" style="color: red;">0</span></div>
+            <div>المتبقي: <span id="remaining">200</span></div>
+        </div>
+    </header>
+
+    <div id="quiz-container"></div>
+
+    <button class="btn-finish" onclick="showResults()">عرض النتيجة النهائية</button>
+
+    <div id="result-box">
+        <h2 id="final-score-text"></h2>
+        <p id="percentage"></p>
+        <button onclick="location.reload()" style="padding: 10px 20px; cursor: pointer;">إعادة الاختبار</button>
+    </div>
+</div>
+
+<script>
+    // تم استخراج الأسئلة من الملف المرفق
+        const quizData = [
+        { q: "1. As regards communication, barriers of messages include which of the following?", a: ["Easy messages", "Relevant messages", "Unclear messages", "Complete messages"], c: 2 },
+        { q: "2. Which of the following is the definition of motivation?", a: ["Internal force that initiates and directs individual", "External force", "Both 1 and 4", "Motivation starts with need, vision, dream"], c: 0 },
+        { q: "3. As regards the role of the teacher, which of the following is not correct?", a: ["Planner", "Clarifier", "Stimulator", "Volunteer"], c: 3 },
+        { q: "4. Group approach method of education includes which of the following?", a: ["Television", "Home visit", "Lecture", "Internet"], c: 2 },
+        { q: "5. As regards, Importance of motivation which of the following is not correct?", a: ["Activate behavior", "Give direction", "Increase productivity", "Passive participation"], c: 3 },
+        { q: "6. Which is correct for essentials of communication?", a: ["Do not react instantly in anger", "Go to conclusion", "Interrupt the speaker", "Use difficult medical terminology"], c: 0 },
+        { q: "7. Which of the following is considered correct for verbal communication?", a: ["Need words for emotions", "Active listening", "Direct questioning", "All of the above"], c: 3 },
+        { q: "8. Which of the following is the characteristic of nonverbal communication?", a: ["Easy communication", "More reliable than verbal", "Do not need observation", "Cannot be used with deaf"], c: 1 },
+        { q: "9. Visual aids include which of the following?", a: ["Radio", "Television", "Posters", "Tape recorder"], c: 2 },
+        { q: "10. Barrier of communication related to the receiver is:", a: ["Lack of interest", "Noise", "Unclear message", "Bad weather"], c: 0 },
+        { q: "11. Barrier of communication related to the channel is:", a: ["Lack of interest", "Noise", "Unclear message", "Bad weather"], c: 1 },
+        { q: "12. In communication process, sender is also known as:", a: ["Decoder", "Encoder", "Receiver", "Channel"], c: 1 },
+        { q: "13. In communication process, receiver is also known as:", a: ["Decoder", "Encoder", "Sender", "Channel"], c: 0 },
+        { q: "14. Motivation activates behavior, this means:", a: ["It stops behavior", "It initiates behavior", "It has no effect", "None of the above"], c: 1 },
+        { q: "15. All the following are roles of teacher except:", a: ["Planner", "Stimulator", "Passive observer", "Clarifier"], c: 2 },
+        { q: "16. Mass approach method of education includes:", a: ["Lecture", "Home visit", "Television", "Discussion"], c: 2 },
+        { q: "17. Which is an audio-visual aid?", a: ["Radio", "Posters", "Television", "Flip charts"], c: 2 },
+        { q: "18. One of the psychological barriers of communication is:", a: ["Noise", "Anxiety", "Unclear message", "Bad lighting"], c: 1 },
+        { q: "19. Feedback is important because it:", a: ["Ends communication", "Confirms understanding", "Increases noise", "Changes sender"], c: 1 },
+        { q: "20. The first step in communication process is:", a: ["Decoding", "Encoding", "Feedback", "Channel selection"], c: 1 },
+        { q: "21. Elements of communication include all except:", a: ["Sender", "Message", "Receiver", "Noise"], c: 3 },
+        { q: "22. Non-verbal communication includes all except:", a: ["Eye contact", "Body language", "Written words", "Facial expressions"], c: 2 },
+        { q: "23. Empathy in communication means:", a: ["Pity", "Understanding others perspective", "Ignoring emotions", "Agreement"], c: 1 },
+        { q: "24. A message should be:", a: ["Complex", "Clear and concise", "Long", "Technical"], c: 1 },
+        { q: "25. Which is a physical barrier?", a: ["Prejudice", "Noise", "Fear", "Language"], c: 1 },
+        { q: "26. Horizontal communication occurs between:", a: ["Boss and employee", "Employee and boss", "Colleagues at same level", "Internal and external"], c: 2 },
+        { q: "27. Decoding is the responsibility of the:", a: ["Sender", "Receiver", "Channel", "Messenger"], c: 1 },
+        { q: "28. Which of these is an internal motivation?", a: ["Money", "Self-satisfaction", "Grades", "Prizes"], c: 1 },
+        { q: "29. Face-to-face communication is:", a: ["One-way", "Two-way", "Slow", "Less effective"], c: 1 },
+        { q: "30. The medium used to send a message is called:", a: ["Feedback", "Channel", "Source", "Context"], c: 1 },
+        { q: "31. One of the teacher's roles is 'Clarifier' which means:", a: ["Planning", "Explain and make clear", "Volunteer", "Stimulate"], c: 1 },
+        { q: "32. Posters are considered as:", a: ["Audio aids", "Visual aids", "Audio-visual", "None"], c: 1 },
+        { q: "33. Which is a mass approach method?", a: ["Lecture", "Home visit", "Television", "Discussion"], c: 2 },
+        { q: "34. Upward communication informs senior about:", a: ["Policy", "Orders", "Problems", "Instructions"], c: 2 },
+        { q: "35. Visual aids include which of the following?", a: ["Radio", "Television", "Posters", "Tape recorder"], c: 2 },
+        { q: "36. Barrier of communication related to the receiver is:", a: ["Lack of interest", "Noise", "Unclear message", "Bad weather"], c: 0 },
+        { q: "37. Audio aids include which of the following?", a: ["Radio", "Posters", "Television", "Flip charts"], c: 0 },
+        { q: "38. Which of the following is correct for essentials of communication?", a: ["Do not react instantly", "Go to conclusion", "Interrupt", "Use difficult terms"], c: 0 },
+        { q: "39. Importance of motivation except:", a: ["Activate behavior", "Direction", "Persistence", "Passive participation"], c: 3 },
+        { q: "40. Elements of communication include:", a: ["Sender", "Message", "Channel", "All the above"], c: 3 },
+        { q: "41. Encoding means:", a: ["Translating thoughts into message", "Interpreting message", "Providing feedback", "None"], c: 0 },
+        { q: "42. Verbal communication includes:", a: ["Body language", "Oral and written", "Eye contact", "Facial expression"], c: 1 },
+        { q: "43. Nonverbal communication is:", a: ["Less reliable", "More reliable than verbal", "Not important", "Used only for deaf"], c: 1 },
+        { q: "44. Barriers related to sender include:", a: ["Lack of skill", "Noise", "Anxiety", "Unclear message"], c: 0 },
+        { q: "45. Barriers related to message include:", a: ["Noise", "Unclear message", "Lack of interest", "Anxiety"], c: 1 },
+        { q: "46. Barriers related to receiver include:", a: ["Lack of interest", "Noise", "Unclear message", "Sender attitude"], c: 0 },
+        { q: "47. Feedback is the:", a: ["Final step", "Initial step", "Encoding step", "None"], c: 0 },
+        { q: "48. Upward communication moves from:", a: ["Senior to junior", "Junior to senior", "Manager to staff", "None"], c: 1 },
+        { q: "49. Downward communication moves from:", a: ["Senior to junior", "Junior to senior", "Staff to manager", "None"], c: 0 },
+        { q: "50. Horizontal communication moves between:", a: ["Senior to junior", "Junior to senior", "Peers at same level", "None"], c: 2 },
+        { q: "51. Motivation starts with:", a: ["Result", "Action", "Need", "Goal"], c: 2 },
+        { q: "52. Roles of teacher include:", a: ["Planner", "Clarifier", "Stimulator", "All the above"], c: 3 },
+        { q: "53. Group approach method includes:", a: ["Television", "Lecture", "Internet", "Radio"], c: 1 },
+        { q: "54. Individual approach method includes:", a: ["Television", "Home visit", "Lecture", "Discussion"], c: 1 },
+        { q: "55. Mass approach method includes:", a: ["Television", "Home visit", "Lecture", "Discussion"], c: 0 },
+        { q: "56. Audio aids include:", a: ["Posters", "Radio", "Television", "Flip charts"], c: 1 },
+        { q: "57. Visual aids include:", a: ["Radio", "Posters", "Tape recorder", "Telephone"], c: 1 },
+        { q: "58. Audio-visual aids include:", a: ["Radio", "Posters", "Television", "Flip charts"], c: 2 },
+        { q: "59. Empathy means:", a: ["Pity", "Understanding perspective", "Ignoring", "Sympathy"], c: 1 },
+        { q: "60. Effective communication requires:", a: ["Clear message", "Active listening", "Feedback", "All the above"], c: 3 },
+        { q: "61. Nonverbal communication messages which is correct?", a: ["Need words", "Do not need interpretation", "Use with deaf and mute persons", "Need high voice"], c: 2 },
+        { q: "62. The following is character of good receiver:", a: ["Aware", "Interested to accept message", "Understand value of message", "All the above"], c: 3 },
+        { q: "63. Criteria of effective nonverbal communicator include:", a: ["Use clear voice", "Establish eye contact", "Relaxes", "2+3"], c: 3 },
+        { q: "64. Health education code of ethics is defined as:", a: ["Framework of shared values", "Interaction between learners", "Interaction between doctors", "Interaction between students"], c: 0 },
+        { q: "65. Which of the following is correct for good nonverbal communication?", a: ["Need good observation", "Good analysis", "Good interpretation", "All the above"], c: 3 },
+        { q: "66. Upward communication which is correct?", a: ["Nondirective", "From junior to senior", "Inform problem", "All the above"], c: 3 },
+        { q: "67. Which is correct for downward communication?", a: ["From senior to junior", "Directive", "Policy and goals", "All the above"], c: 3 },
+        { q: "68. Which of the following is correct for horizontal communication?", a: ["Between different levels", "Between same level", "From senior to junior", "Between departments"], c: 1 },
+        { q: "69. Barrier of communication related to the sender includes:", a: ["Lack of interest", "Noise", "Lack of communication skills", "Unclear message"], c: 2 },
+        { q: "70. Barrier of communication related to the receiver includes:", a: ["Lack of interest", "Noise", "Bad weather", "Unclear message"], c: 0 },
+        { q: "71. Barrier of communication related to the channel includes:", a: ["Anxiety", "Noise", "Lack of interest", "Unclear message"], c: 1 },
+        { q: "72. One of the psychological barriers of communication is:", a: ["Noise", "Language", "Anxiety", "Distance"], c: 2 },
+        { q: "73. One of the physiological barriers of communication is:", a: ["Noise", "Anxiety", "Deafness", "Language"], c: 2 },
+        { q: "74. One of the physical barriers of communication is:", a: ["Anxiety", "Prejudice", "Noise", "Fear"], c: 2 },
+        { q: "75. To overcome communication barriers, we should:", a: ["Use medical jargon", "Ignore feedback", "Use appropriate channel", "Be aggressive"], c: 2 },
+        { q: "76. Feedback in communication process is:", a: ["Response of receiver to sender", "Encoding thoughts", "The medium used", "The starting point"], c: 0 },
+        { q: "77. In communication, the message should be:", a: ["Ambiguous", "Clear and concise", "Irrelevant", "Long"], c: 1 },
+        { q: "78. Verbal communication includes which of the following?", a: ["Oral and written", "Body language", "Facial expressions", "Eye contact"], c: 0 },
+        { q: "79. Non-verbal communication is:", a: ["Less reliable", "More reliable than verbal", "Not important", "Used only by doctors"], c: 1 },
+        { q: "80. Which of the following is an audio aid?", a: ["Television", "Posters", "Radio", "Flip charts"], c: 2 },
+        { q: "81. Which of the following is a visual aid?", a: ["Radio", "Posters", "Tape recorder", "Podcasts"], c: 1 },
+        { q: "82. Which of the following is an audio-visual aid?", a: ["Radio", "Posters", "Television", "Pamphlets"], c: 2 },
+        { q: "83. Group teaching methods include all except:", a: ["Lectures", "Group discussion", "Home visits", "Demonstrations"], c: 2 },
+        { q: "84. Mass approach is used for:", a: ["Small groups", "Individuals only", "Large number of people", "None of the above"], c: 2 },
+        { q: "85. The goal of health education is:", a: ["To treat diseases", "To change health behavior", "To provide medicines", "To build hospitals"], c: 1 },
+        { q: "86. A teacher acts as a 'Planner' means:", a: ["He explains clearly", "He prepares the lesson", "He volunteers his time", "He initiates action"], c: 1 },
+        { q: "87. A teacher acts as a 'Stimulator' means:", a: ["He plans lessons", "He makes things clear", "He encourages learners", "He is a volunteer"], c: 2 },
+        { q: "88. Empathy is defined as:", a: ["Feeling pity", "Putting oneself in another's shoes", "Ignoring feelings", "Agreement"], c: 1 },
+        { q: "89. Motivation helps to:", a: ["Decrease productivity", "Increase persistence", "Stop behavior", "Create noise"], c: 1 },
+        { q: "90. Encoding is done by:", a: ["Receiver", "Sender", "Channel", "Feedback"], c: 1 },
+        { q: "91. Decoding is done by:", a: ["Sender", "Receiver", "Noise", "Medium"], c: 1 },
+        { q: "92. Face to face communication is more effective because of:", a: ["Immediate feedback", "Distance", "Complex message", "One way"], c: 0 },
+        { q: "93. Which of the following is an individual approach?", a: ["Television", "Lecture", "Home visit", "Poster"], c: 2 },
+        { q: "94. Horizontal communication is also called:", a: ["Lateral communication", "Upward", "Downward", "Internal"], c: 0 },
+        { q: "95. Selective perception is a barrier for:", a: ["Sender", "Receiver", "Message", "Channel"], c: 1 },
+        { q: "96. One of the characters of a good teacher is:", a: ["Knowledgeable", "Good communicator", "Empathetic", "All the above"], c: 3 },
+        { q: "97. Mass media include all except:", a: ["Radio", "Television", "Individual counseling", "Newspapers"], c: 2 },
+        { q: "98. Motivation can be:", a: ["Intrinsic", "Extrinsic", "Both 1 and 2", "None"], c: 2 },
+        { q: "99. Active listening requires:", a: ["Interruption", "Full attention", "Daydreaming", "Ignoring cues"], c: 1 },
+        { q: "100. The medium of communication is called:", a: ["Message", "Sender", "Channel", "Decoding"], c: 2 },
+        { q: "101. Which of the following affects communication?", a: ["Culture", "Environment", "Emotions", "All the above"], c: 3 },
+        { q: "102. Visual communication uses:", a: ["Sounds", "Pictures and symbols", "Only words", "Gestures"], c: 1 },
+        { q: "103. Written communication is a part of:", a: ["Non-verbal", "Verbal", "Visual aids", "None"], c: 1 },
+        { q: "104. Feedback can be:", a: ["Positive", "Negative", "Both 1 and 2", "Only verbal"], c: 2 },
+        { q: "105. Communication is a:", a: ["One way", "Two way", "Passive", "Stop"], c: 1 },
+        { q: "106. Importance of motivation includes:", a: ["Activation of behavior", "Direction", "Persistence", "All the above"], c: 3 },
+        { q: "107. A barrier related to the message is:", a: ["Poor timing", "Medical terminology", "Bad weather", "Sender anxiety"], c: 1 },
+        { q: "108. Which is a characteristic of a clear message?", a: ["Many words", "Simple words", "Complex", "Vague"], c: 1 },
+        { q: "109. Individual counseling is best for:", a: ["Changing social norms", "Sensitive issues", "Broad awareness", "Saving time"], c: 1 },
+        { q: "110. Non-verbal communication can express:", a: ["Emotions", "Attitudes", "Feelings", "All the above"], c: 3 },
+        { q: "111. Effective communication occurs when:", a: ["Sender and receiver have same understanding", "Message is long", "Noise is high", "Feedback is absent"], c: 0 },
+        { q: "112. One of the barriers related to the message is:", a: ["Medical jargon", "Anxiety", "Noise", "Lack of interest"], c: 0 },
+        { q: "113. Encoding is the process of:", a: ["Interpreting", "Converting thoughts into symbols", "Receiving", "Sending feedback"], c: 1 },
+        { q: "114. All of the following are components except:", a: ["Sender", "Receiver", "Message", "Passive listening"], c: 3 },
+        { q: "115. Health education aims to:", a: ["Force people", "Improve health knowledge", "Sell products", "None"], c: 1 },
+        { q: "116. Which is the most effective channel for complex messages?", a: ["Letter", "Face-to-face", "Radio", "Posters"], c: 1 },
+        { q: "117. Nonverbal cues include:", a: ["Tone of voice", "Facial expressions", "Posture", "All the above"], c: 3 },
+        { q: "118. Which of the following is a barrier for the sender?", a: ["Fear", "Lack of knowledge", "Prejudice", "All the above"], c: 3 },
+        { q: "119. Feedback is important for:", a: ["Checking understanding", "Closing loop", "Improving future messages", "All the above"], c: 3 },
+        { q: "120. Upward communication allows employees to:", a: ["Give feedback to managers", "Receive orders", "Set goals", "None"], c: 0 },
+        { q: "121. Downward communication examples include:", a: ["Suggestions", "Company policies", "Peer talk", "Grievances"], c: 1 },
+        { q: "122. Horizontal communication prevents:", a: ["Feedback", "Departmental isolation", "Conflict", "None"], c: 1 },
+        { q: "123. A good message should be 'Concise' which means:", a: ["Very long", "Brief and to the point", "Technical", "Unclear"], c: 1 },
+        { q: "124. Psychological barriers include:", a: ["Emotional state", "Noise", "Poor lighting", "Distance"], c: 0 },
+        { q: "125. Written communication is best for:", a: ["Urgent matters", "Legal records", "Emotional support", "Feedback"], c: 1 },
+        { q: "126. Verbal communication is:", a: ["Oral only", "Written only", "Both oral and written", "Body language"], c: 2 },
+        { q: "127. Empathy means:", a: ["Feeling sorry", "Stepping into another's shoes", "Agreement", "Disregard"], c: 1 },
+        { q: "128. Motivation is necessary for:", a: ["Learning", "Performance", "Retention", "All the above"], c: 3 },
+        { q: "129. The 'Decoder' is the:", a: ["Sender", "Receiver", "Message", "Channel"], c: 1 },
+        { q: "130. The 'Encoder' is the:", a: ["Sender", "Receiver", "Noise", "Feedback"], c: 0 },
+        { q: "131. Which is a group teaching method?", a: ["Pamphlets", "Demonstration", "Television", "Home visit"], c: 1 },
+        { q: "132. Individual teaching method is:", a: ["One-to-one counseling", "Radio talk", "Lecture", "Newspaper"], c: 0 },
+        { q: "133. Audio-visual aids are superior because:", a: ["They involve more senses", "They are cheaper", "Easier to make", "None"], c: 0 },
+        { q: "134. Cultural barrier can be:", a: ["Language differences", "Religious beliefs", "Social norms", "All the above"], c: 3 },
+        { q: "135. Active listening involves:", a: ["Hearing only", "Paying full attention", "Interruption", "Daydreaming"], c: 1 },
+        { q: "136. Barriers lead to:", a: ["Better understanding", "Misunderstanding", "Clear feedback", "Efficiency"], c: 1 },
+        { q: "137. Which of the following is correct for 'Message'?", a: ["Idea conveyed", "Must be clear", "Must be relevant", "All the above"], c: 3 },
+        { q: "138. Visual aid example:", a: ["Radio", "Blackboard", "Tape recorder", "Podcast"], c: 1 },
+        { q: "139. Importance of feedback is to:", a: ["Reduce noise", "Measure effectiveness", "Stop communication", "Change channel"], c: 1 },
+        { q: "140. Sender's attitude affects:", a: ["Encoding", "Decoding", "Channel", "None"], c: 0 },
+        { q: "141. Receiver's perception affects:", a: ["Encoding", "Decoding", "Noise", "Channel"], c: 1 },
+        { q: "142. Silence is a form of:", a: ["Lack of communication", "Non-verbal", "Verbal", "Noise"], c: 1 },
+        { q: "143. Effective health education is:", a: ["Student-centered", "Teacher-centered", "One-way", "Passive"], c: 0 },
+        { q: "144. Communication loop is closed by:", a: ["Receiver", "Feedback", "Message", "Sender"], c: 1 },
+        { q: "145. A barrier related to the receiver is:", a: ["Prejudice", "Language", "Voice", "Lighting"], c: 0 },
+        { q: "146. Information overload is a:", a: ["Benefit", "Barrier", "Channel", "Source"], c: 1 },
+        { q: "147. Visual aids include which of the following?", a: ["Radio", "Television", "Posters", "Tape recorder"], c: 2 },
+        { q: "148. Mass approach method includes:", a: ["Television", "Home visit", "Lecture", "Discussion"], c: 0 },
+        { q: "149. The sender is also known as:", a: ["Decoder", "Encoder", "Receiver", "Channel"], c: 1 },
+        { q: "150. Final element to complete communication loop is:", a: ["Message", "Receiver", "Feedback", "Channel"], c: 2 }
+    ];
+
+
+    // لضمان عمل الـ 200 سؤال، سنقوم بتوليدهم في الحاوية
+    const container = document.getElementById('quiz-container');
+    
+    function initQuiz() {
+        quizData.forEach((data, index) => {
+            let optionsHtml = data.a.map((opt, i) => `
+                <label class="option" id="label-${index}-${i}">
+                    <input type="radio" name="q${index}" value="${i}" onclick="checkStep(${index}, ${i}, ${data.c})"> 
+                    ${opt}
+                </label>
+            `).join('');
+
+            container.innerHTML += `
+                <div class="question-card">
+                    <span class="question-text">${data.q}</span>
+                    <div class="options">${optionsHtml}</div>
+                </div>
+            `;
+        });
+    }
+
+    let correctCount = 0;
+    let wrongCount = 0;
+    let answered = new Set();
+
+    function checkStep(qIndex, selectedIdx, correctIdx) {
+        if (answered.has(qIndex)) return;
+        answered.add(qIndex);
+
+        const selectedLabel = document.getElementById(`label-${qIndex}-${selectedIdx}`);
+        const correctLabel = document.getElementById(`label-${qIndex}-${correctIdx}`);
+
+        if (selectedIdx === correctIdx) {
+            correctCount++;
+            selectedLabel.classList.add('correct');
+        } else {
+            wrongCount++;
+            selectedLabel.classList.add('wrong');
+            correctLabel.classList.add('correct');
+        }
+
+        document.getElementById('correct-score').innerText = correctCount;
+        document.getElementById('wrong-score').innerText = wrongCount;
+        document.getElementById('remaining').innerText = 200 - answered.size;
+    }
+
+    function showResults() {
+        const resultBox = document.getElementById('result-box');
+        const scoreText = document.getElementById('final-score-text');
+        const percentage = document.getElementById('percentage');
+        
+        resultBox.style.display = 'block';
+        scoreText.innerText = `درجتك هي: ${correctCount} من 200`;
+        percentage.innerText = `النسبة المئوية: ${((correctCount / 200) * 100).toFixed(2)}%`;
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    initQuiz();
+</script>
+</body>
+</html>
